@@ -4,7 +4,7 @@
 
 using namespace std;
 
-bool gameOver();
+bool gameOver;
 
 const int boardWidth = 20;
 const int boardHeight = 20;
@@ -23,8 +23,8 @@ void setup()
 {
     gameOver = false;
     dir = STOP;
-    x = boardWidth / 2;
-    y = boardHeight / 2;
+    snakeAxisX = boardWidth / 2;
+    snakeAxisY = boardHeight / 2;
     fruitAxisX = rand() % boardWidth;
     fruitAxisY = rand() % boardHeight;
     score = 0;
@@ -32,14 +32,56 @@ void setup()
 
 void draw()
 {
+    system("clear");
+
+    // up edge of board
+    for (int i = 0; i < boardWidth + 2; i++)
+    {
+        cout << "#";
+    }
+
+    cout << endl;
+
+    // sides edges of board
+    for (int i = 0; i < boardHeight; i++)
+    {
+        for (int j = 0; j < boardWidth; j++)
+        {
+            // left edge of board
+            if (j == 0)
+            {
+                cout << "#";
+            }
+
+            // blank space
+            cout << " ";
+
+            // right edge od board
+            if (j == boardWidth - 1)
+            {
+                cout << "#";
+            }
+        }
+
+        cout << endl;
+    }
+
+    // down edge of board
+    for (int i = 0; i < boardWidth + 2; i++)
+    {
+        cout << "#";
+    }
+    cout << endl;
 }
 
 void input()
 {
+    ;
 }
 
 void logic()
 {
+    ;
 }
 
 int main()
