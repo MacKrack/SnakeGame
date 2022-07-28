@@ -1,6 +1,8 @@
 #include <iostream>
 #include <chrono>
 #include <thread>
+#include <stdlib.h> /* srand, rand */
+#include <time.h>
 
 using namespace std;
 
@@ -25,8 +27,9 @@ void setup()
     dir = STOP;
     snakeAxisX = boardWidth / 2;
     snakeAxisY = boardHeight / 2;
-    fruitAxisX = rand() % boardWidth;
-    fruitAxisY = rand() % boardHeight;
+    srand(time(NULL));
+    fruitAxisX = rand() % (boardWidth - 2) + 2;
+    fruitAxisY = rand() % (boardHeight - 2) + 2;
     score = 0;
 }
 
@@ -52,9 +55,19 @@ void draw()
             {
                 cout << "#";
             }
-
+            // head of snake
+            if (i == snakeAxisY && j == snakeAxisX)
+            {
+                cout << "O";
+            }
+            // fruit possition
+            else if (i == fruitAxisY && j == fruitAxisX)
+            {
+                cout << "x";
+            }
             // blank space
-            cout << " ";
+            else
+                cout << " ";
 
             // right edge od board
             if (j == boardWidth - 1)
@@ -76,12 +89,46 @@ void draw()
 
 void input()
 {
-    ;
+    // (kbhit() & getch() - features is not available on unix, but characters should load immediately from keyboard - without waiting for return key
+    switch (cin.get())
+    {
+    case 'a':
+        dir = LEFT;
+        break;
+    case 'd':
+        dir = RIGHT;
+        break;
+    case 'w':
+        dir = UP;
+        break;
+    case 's':
+        dir = DOWN;
+        break;
+    case 'x':
+        gameOver = true;
+        break;
+    }
 }
 
 void logic()
 {
-    ;
+    switch (dir)
+    {
+    case LEFT:
+        snakeAxisX--;
+        break;
+    case RIGHT:
+        snakeAxisX++;
+        break;
+    case UP:
+        snakeAxisY--;
+        break;
+    case DOWN:
+        snakeAxisY++;
+        break;
+    default:
+        break;
+    };
 }
 
 int main()
@@ -95,5 +142,6 @@ int main()
 
         // this_thread::sleep_for(chrono::seconds(1));
     }
+
     return 0;
 }
