@@ -85,6 +85,7 @@ void draw()
         cout << "#";
     }
     cout << endl;
+    cout << "Score: " << score << endl;
 }
 
 void input()
@@ -133,6 +134,13 @@ void logic()
     if (snakeAxisX > boardWidth || snakeAxisX < 0 || snakeAxisY > boardHeight || snakeAxisY < 0)
     {
         gameOver = true;
+    }
+    // get the points for catch fruit and change the fruit locations
+    if (snakeAxisX == fruitAxisX && snakeAxisY == fruitAxisY)
+    {
+        score += 10;
+        fruitAxisX = rand() % (boardWidth - 2) + 2;
+        fruitAxisY = rand() % (boardHeight - 2) + 2;
     }
 }
 
