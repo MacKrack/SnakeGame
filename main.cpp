@@ -128,7 +128,12 @@ void logic()
         break;
     default:
         break;
-    };
+    }
+    // game over when snake hit the wall
+    if (snakeAxisX > boardWidth || snakeAxisX < 0 || snakeAxisY > boardHeight || snakeAxisY < 0)
+    {
+        gameOver = true;
+    }
 }
 
 int main()
