@@ -11,6 +11,8 @@ bool gameOver;
 const int boardWidth = 20;
 const int boardHeight = 20;
 int snakeAxisX, snakeAxisY, fruitAxisX, fruitAxisY, score;
+int snakeTailX[100], snakeTailY[100];
+int nSnakeTail;
 enum eDirection
 {
     STOP = 0,
@@ -65,9 +67,23 @@ void draw()
             {
                 cout << "x";
             }
-            // blank space
+            // blank space and sanke tail
             else
-                cout << " ";
+            {
+                bool print = false;
+                for (int k = 0; k < nSnakeTail; k++)
+                {
+                    if (snakeTailY[k] == i && snakeTailX[k] == j)
+                    {
+                        cout << "o";
+                        print = true;
+                    }
+                }
+                if (!print)
+                {
+                    cout << " ";
+                }
+            }
 
             // right edge od board
             if (j == boardWidth - 1)
@@ -75,7 +91,6 @@ void draw()
                 cout << "#";
             }
         }
-
         cout << endl;
     }
 
@@ -113,6 +128,22 @@ void input()
 
 void logic()
 {
+    // logic of snake tail move
+    int prevSnakeTailX = snakeTailX[0];
+    int prevSnakeTailY = snakeTailY[0];
+    int prev2_SnakeTailX, prev2_SnakeTailY;
+    snakeTailX[0] = snakeAxisX;
+    snakeTailY[0] = snakeAxisY;
+    for (int i = 1; i < nSnakeTail; i++)
+    {
+        prev2_SnakeTailX = snakeTailX[i];
+        prev2_SnakeTailY = snakeTailY[i];
+        snakeTailX[i] = prevSnakeTailX;
+        snakeTailY[i] = prevSnakeTailY;
+        prevSnakeTailX = prev2_SnakeTailX;
+        prevSnakeTailY = prev2_SnakeTailY;
+    }
+
     switch (dir)
     {
     case LEFT:
@@ -135,12 +166,13 @@ void logic()
     {
         gameOver = true;
     }
-    // get the points for catch fruit and change the fruit locations
+    // get the points for catch fruit and then change the fruit locations
     if (snakeAxisX == fruitAxisX && snakeAxisY == fruitAxisY)
     {
         score += 10;
         fruitAxisX = rand() % (boardWidth - 2) + 2;
         fruitAxisY = rand() % (boardHeight - 2) + 2;
+        nSnakeTail++;
     }
 }
 
