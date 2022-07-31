@@ -162,10 +162,39 @@ void logic()
         break;
     }
     // game over when snake hit the wall
-    if (snakeAxisX > boardWidth || snakeAxisX < 0 || snakeAxisY > boardHeight || snakeAxisY < 0)
+    // if (snakeAxisX > boardWidth || snakeAxisX < 0 || snakeAxisY > boardHeight || snakeAxisY < 0)
+    // {
+    //     gameOver = true;
+    // }
+
+    // move through walls
+    if (snakeAxisX >= boardWidth)
     {
-        gameOver = true;
+        snakeAxisX = 0;
     }
+    else if (snakeAxisX < 0)
+    {
+        snakeAxisX = boardWidth - 1;
+    }
+
+    if (snakeAxisY >= boardHeight)
+    {
+        snakeAxisY = 0;
+    }
+    else if (snakeAxisY < 0)
+    {
+        snakeAxisY = boardHeight - 1;
+    }
+
+    // kill snake by hitting head into tail
+    for (int i = 0; i < nSnakeTail; i++)
+    {
+        if (snakeTailX[i] == snakeAxisX && snakeTailY[i] == snakeAxisY)
+        {
+            gameOver = true;
+        }
+    }
+
     // get the points for catch fruit and then change the fruit locations
     if (snakeAxisX == fruitAxisX && snakeAxisY == fruitAxisY)
     {
@@ -185,6 +214,7 @@ int main()
         input();
         logic();
 
+        // if you need to moving snake slower
         // this_thread::sleep_for(chrono::seconds(1));
     }
 
